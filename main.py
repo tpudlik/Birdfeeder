@@ -1,6 +1,7 @@
 # main module
 
-""" Wait for signal from motion sensor, take a picture if signal is detected"""
+""" Check signal from motion sensor every second, take a picture if signal
+    is detected."""
 
 import time
 import RPi.GPIO as io
@@ -18,9 +19,7 @@ while True:
     current_pir = io.input(pir_pin)
     if previous_pir == 0 and current_pir == 1:
         print "Motion detected!"
-        shot = webcam.take_snapshot() # This function not yet implemented,
-                                      # may take multiple snapshots in short
-                                      # succession
-        twitter.update_image(shot) # Tweet the image
+        shot = webcam.take_snapshot() # shot is the image filename
+        twitter.update_image(shot)
     previous_pir = current_pir
     time.sleep(1) # Wait for one second
