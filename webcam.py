@@ -12,6 +12,6 @@ def take_snapshot():
     """
     filename = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     filename = filename + '.jpg'
-    subprocess.Popen(['fswebcam', '-r', '640x480', '-d', '/dev/video0', 'filename'],
+    subprocess.Popen(['fswebcam', '-r', '640x480', '-d', '/dev/video0', filename],
                      cwd=os.getcwd())
     return filename
