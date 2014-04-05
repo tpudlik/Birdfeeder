@@ -1,6 +1,6 @@
 # Integration with Twitter
 
-from twython import Twython
+from twython import Twython, TwythonError
 
 APP_KEY = 'ySpw09Es52O9gbsgJM68HBP2F'
 APP_SECRET = 'lhZRj9R418U1W0OmA6NEJfhcHfQ2md4eRTBrjJvjjfxql9IRAC'
@@ -21,4 +21,7 @@ def update_image(shot, status='Bird spotted!'):
     #OAUTH_TOKEN_SECRET = auth['oauth_token_secret']
     twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
     photo = open(shot, 'rb')
-    twitter.update_status_with_media(media=photo, status=status)
+    try:
+        twitter.update_status_with_media(media=photo, status=status)
+    except TwythonError:
+        print 'Twitter upload of photo ' + shot + ' has failed!'
