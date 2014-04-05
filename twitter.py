@@ -12,7 +12,7 @@ def get_auth():
     auth = twitter.get_authentication_tokens()
 
 def update_image(shot):
-    """ Upload the image in the file 'shot' to Twitter """
+    """ Upload the image in the file 'shot' to Twitter account """
     # Requires Authentication as of Twitter API v1.1
     auth = get_auth()
     OAUTH_TOKEN = auth['oauth_token']

@@ -9,7 +9,7 @@ import twitter
 
 io.setmode(io.BCM) # no idea what this does, taken from alarmd.py
 
-pir_pin = 18
+pir_pin = 18 # pin on which the passive IR sensor sends data
 
 io.setup(pir_pin, io.IN)
 
@@ -21,6 +21,6 @@ while True:
         shot = webcam.take_snapshot() # This function not yet implemented,
                                       # may take multiple snapshots in short
                                       # succession
-        twitter.update_image(shot) # Tweet the 
+        twitter.update_image(shot) # Tweet the image
     previous_pir = current_pir
     time.sleep(1) # Wait for one second
