@@ -2,7 +2,6 @@
 # Probably uses fswebcam
 
 import subprocess
-from PIL import Image
 import datetime
 import os
 
@@ -15,7 +14,7 @@ def take_snapshot():
     filename = filename + '.jpg'
     p = subprocess.Popen(['fswebcam', '-r', '1280x720',
                           '-d', '/dev/video0',
-                          '--rotate', '90',
+                          '--rotate', '270',
                           filename],
                          cwd=os.getcwd())
     p.communicate() # Wait for the subprocess to complete
