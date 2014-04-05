@@ -15,6 +15,7 @@ pir_pin = 18 # pin on which the passive IR sensor sends data
 io.setup(pir_pin, io.IN)
 
 previous_pir = 0
+print "Motion detector active, waiting for something to stir..."
 while True:
     current_pir = io.input(pir_pin)
     if previous_pir == 0 and current_pir == 1:
