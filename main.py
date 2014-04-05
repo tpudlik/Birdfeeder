@@ -8,6 +8,9 @@ import RPi.GPIO as io
 import webcam
 import twitter
 
+DETECTOR_DELAY = 2 # detector query period, in seconds
+PHOTO_DELAY = 30 # minimum delay between photographs, in seconds
+
 io.setmode(io.BCM) # no idea what this does, taken from alarmd.py
 
 pir_pin = 18 # pin on which the passive IR sensor sends data
@@ -22,5 +25,6 @@ while True:
         print "Motion detected!"
         shot = webcam.take_snapshot() # shot is the image filename
         twitter.update_image(shot)
+        time.sleep(PHOTO_DELAY)
     previous_pir = current_pir
-    time.sleep(0.1) # Wait for one second
+    time.sleep(DETECTOR_DELAY) # Wait for one second
