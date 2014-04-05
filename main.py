@@ -22,4 +22,4 @@ while True:
         shot = webcam.take_snapshot() # shot is the image filename
         twitter.update_image(shot)
     previous_pir = current_pir
-    time.sleep(1) # Wait for one second
+    time.sleep(0.1) # Wait for one second
