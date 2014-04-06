@@ -8,17 +8,14 @@ OAUTH_TOKEN = '2429040776-0rkZJGKOpG5jdLe9UG1oxpRCx8x3IcWUadR8m8e'
 OAUTH_TOKEN_SECRET = 'yEfYZUd9M9JWtWHlx4XbDXdUmClH1sGCMpwsBNXtcpUwY'
 
 def get_auth():
+    """ Get OAUTH tokens.  (This function isn't actually used.)"""
     twitter = Twython(APP_KEY, APP_SECRET)
     auth = twitter.get_authentication_tokens()
+    return auth
 
 def update_image(shot, status='Bird spotted!'):
-    """ Upload the image in the file 'shot' to Twitter account """
+    """ Upload the image in the file 'shot' to Twitter account. """
     # Requires Authentication as of Twitter API v1.1
-    # The lines below are apparently unnecessary---we already know the
-    # OAUTH_TOKEN and OAUTH_TOKEN_SECRET.
-    #auth = get_auth()
-    #OAUTH_TOKEN = auth['oauth_token']
-    #OAUTH_TOKEN_SECRET = auth['oauth_token_secret']
     twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
     photo = open(shot, 'rb')
     try:

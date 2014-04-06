@@ -1,13 +1,12 @@
 # Module that interfaces with the webcam, taking and recording images.
-# Probably uses fswebcam
 
 import subprocess
 import datetime
 import os
 
 def take_snapshot():
-    """ Take a snapshot and save it to disk. Return filename of one of the
-        shapshots.
+    """ Take a snapshot and save it to disk. Return filename of the
+        shapshot once it's been recorded.
         
     """
     filename = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")

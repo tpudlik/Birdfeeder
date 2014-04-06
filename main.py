@@ -1,15 +1,17 @@
 # main module
 
-""" Check signal from motion sensor every second, take a picture if signal
-    is detected."""
+"""
+Check signal from motion sensor every second, take a picture if signal is
+detected.
+"""
 
 import time
 import RPi.GPIO as io
 import webcam
 import twitter
 
-DETECTOR_DELAY = 2 # detector query period, in seconds
-PHOTO_DELAY = 30 # minimum delay between photographs, in seconds
+DETECTOR_DELAY = 2 # minimum delay between detector queries, in seconds
+PHOTO_DELAY = 30 # minimum delay between photograph tweets, in seconds
 
 io.setmode(io.BCM) # no idea what this does, taken from alarmd.py
 
@@ -23,8 +25,8 @@ while True:
     current_pir = io.input(pir_pin)
     if previous_pir == 0 and current_pir == 1:
         print "Motion detected!"
-        shot = webcam.take_snapshot() # shot is the image filename
-        twitter.update_image(shot)
+        image_filename = webcam.take_snapshot()
+        twitter.update_image(image_filename)
         time.sleep(PHOTO_DELAY)
     previous_pir = current_pir
     time.sleep(DETECTOR_DELAY) # Wait for one second

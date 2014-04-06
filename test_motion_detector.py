@@ -1,3 +1,7 @@
+"""
+Query the motion detector every second, printing 1 if motion is detected,
+0 otherwise.
+"""
 import RPi.GPIO as io
 import time
 
