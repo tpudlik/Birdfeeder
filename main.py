@@ -11,7 +11,7 @@ import webcam
 import twitter
 
 DETECTOR_DELAY = 2 # minimum delay between detector queries, in seconds
-PHOTO_DELAY = 30 # minimum delay between photograph tweets, in seconds
+PHOTO_DELAY = 5 # minimum delay between photograph tweets, in seconds
 
 io.setmode(io.BCM) # no idea what this does, taken from alarmd.py
 
