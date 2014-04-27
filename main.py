@@ -13,7 +13,8 @@ import twitter
 DETECTOR_DELAY = 2 # minimum delay between detector queries, in seconds
 PHOTO_DELAY = 5 # minimum delay between photograph tweets, in seconds
 
-io.setmode(io.BCM) # no idea what this does, taken from alarmd.py
+io.setmode(io.BCM) # pin numbering scheme used, see
+                   # http://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering
 
 pir_pin = 18 # pin on which the passive IR sensor sends data
 
@@ -29,4 +30,4 @@ while True:
         twitter.update_image(image_filename)
         time.sleep(PHOTO_DELAY)
     previous_pir = current_pir
-    time.sleep(DETECTOR_DELAY) # Wait for one second
+    time.sleep(DETECTOR_DELAY)
