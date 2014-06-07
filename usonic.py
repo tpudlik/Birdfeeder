@@ -52,7 +52,11 @@ def reading():
 
 def distance(samples):
     """ Averages given number of reading samples and returns a tuple of the
-        estimated average and standard deviation (both in cm).
+        estimated average and standard deviation of the readings (both in cm).
+        
+        Note that the estimated standard deviation of the readings is a factor
+        of sqrt(N-1) larger than the estimated standard deviation of the mean.
+        These are two different quantities!
     """
     if samples < 2:
         raise ValueError("Can't average fewer than 2 samples!")
@@ -63,8 +67,38 @@ def distance(samples):
     average = sum(data)/samples
     
     squares = sum(map(lambda x: x*x, data))/samples
-    stdev = math.sqrt((squares - average**2)/(samples-1))
+    stdev = math.sqrt((squares - average**2))
     return (average, stdev)
+
+class Ranger:
+    """ This object can be used to test whether a bird is present or not.
+    """
+    
+    def __init__(self):
+        self.background, self.deviation = self.get_background()
+    
+    def get_background(self):
+        """ Return an estimate the "background" (the reading returned by the
+            sensor in the absence of a bird).
+        """
+        stdev = 10
+        # Reject the background estimate if it was corrupted by an outlier.
+        while stdev > 5:
+            avg, stdev = distance(20)
+        return (avg, stdev)
+    
+    def detect(self):
+        """ Measure the distance and return True if the result is more than
+            two standard deviations above the background.
+        """
+        signal = reading()
+        # We register a detection if the measured distance is _closer_ than
+        # the background.
+        if signal < self.background - 2*self.deviation:
+            return True
+        else:
+            return False
+        
     
 if __name__ == '__main__':
     print reading()
