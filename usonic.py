@@ -4,6 +4,7 @@
 # http://www.bytecreation.com/blog/2013/10/13/raspberry-pi-ultrasonic-sensor-hc-sr04
 
 import time
+import math
 import RPi.GPIO as GPIO
 
 # Numbers of the pins connected to the sensor
@@ -46,6 +47,21 @@ def reading():
     GPIO.cleanup()
     return distance
 
-
+def distance(samples):
+    """ Averages given number of reading samples and returns a tuple of the
+        estimated average and standard deviation (both in cm).
+    """
+    if samples < 2:
+        raise ValueError("Can't average fewer than 2 samples!")
+        
+    data = []
+    for i in range(samples):
+        data.append(reading())
+    average = sum(data)/samples
+    
+    squares = sum(map(lambda x: x*x, data))/samples
+    stdev = math.sqrt((squares - average**2)/(samples-1))
+    return (average, stdev)
+    
 if __name__ == '__main__':
     print reading()
