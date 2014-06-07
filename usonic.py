@@ -11,6 +11,9 @@ import RPi.GPIO as GPIO
 TRIG = 23
 ECHO = 24
 
+# Sensor settling time
+SETTLETIME = 0.3
+
 def reading():
     """ Return the distance to the object in front of the sensor in cm. """
 
@@ -22,7 +25,7 @@ def reading():
     GPIO.output(TRIG, GPIO.LOW)
 
     # Allow the sensor to settle
-    time.sleep(0.3)
+    time.sleep(SETTLETIME)
 
     # Send 10 microsecond pulse to the trigger pin to activate the sensor.
     GPIO.output(TRIG, True)
