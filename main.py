@@ -1,33 +1,33 @@
 # main module
 
 """
-Check signal from motion sensor every second, take a picture if signal is
-detected.
+Check signal from IR motion sensor every second, use the sonic ranger to
+double-check if signal is detected, and take a picture if there seems to be
+a bird out there.
 """
 
 import time
-import RPi.GPIO as io
-import webcam
+import datetime
 import twitter
+import picamera
+from passive_IR import PIR
+from usonic import Ranger
+from parameters import * # I don't like this approach, I'd like to validate
+                         # the parameters.  How to do this better?
+print "Intializing detectors..."
+pir = PIR(PIR_PIN, DETECTOR_DELAY)
+ranger = Ranger()
+print "Done!  Waiting for something to stir..."
 
-DETECTOR_DELAY = 2 # minimum delay between detector queries, in seconds
-PHOTO_DELAY = 5 # minimum delay between photograph tweets, in seconds
-
-io.setmode(io.BCM) # pin numbering scheme used, see
-                   # http://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering
-
-pir_pin = 18 # pin on which the passive IR sensor sends data
-
-io.setup(pir_pin, io.IN)
-
-previous_pir = 0
-print "Motion detector active, waiting for something to stir..."
 while True:
-    current_pir = io.input(pir_pin)
-    if previous_pir == 0 and current_pir == 1:
-        print "Motion detected!"
-        image_filename = webcam.take_snapshot()
-        twitter.update_image(image_filename)
+    if pir.listen() and ranger.detect():
+        image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+        image_name = image_name + '.jpeg'
+        with picamera.PiCamera() as camera:
+            camera.rotation = 180
+            camera.capture(image_name)
+            print "Picture taken!"
+        if TWEET:
+            twitter.update_image(image_name)
         time.sleep(PHOTO_DELAY)
-    previous_pir = current_pir
-    time.sleep(DETECTOR_DELAY)
+        
