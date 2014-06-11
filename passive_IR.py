@@ -21,6 +21,8 @@ class PIR():
         io.setup(pir_pin, io.IN)
         self.pin = pir_pin
         self.previous_pir = 0
+        # The use of previous_pir prevents a single detection being
+        # reported multiple times.
         self.detector_delay = detector_delay
     
     def listen(self):
