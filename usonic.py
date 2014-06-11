@@ -19,6 +19,8 @@ def reading():
 
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
+    # pin numbering scheme used, see
+    # http://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering
 
     GPIO.setup(TRIG,GPIO.OUT)
     GPIO.setup(ECHO,GPIO.IN)

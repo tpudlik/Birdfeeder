@@ -18,7 +18,6 @@ class PIR():
         """ Initialize a PIR sensor at pin pir_pin, which is to be queried
             once every detector_delay seconds.
         """
-        io.setup(pir_pin, io.IN)
         self.pin = pir_pin
         self.previous_pir = 0
         # The use of previous_pir prevents a single detection being
@@ -28,6 +27,7 @@ class PIR():
     def listen(self):
         " Loop until a detection event is recorded, then return True."
         while True:
+            io.setup(self.pin, io.IN)
             self.current_pir = io.input(self.pin)
             if self.previous_pir == 0 and self.current_pir == 1:
                 return True
