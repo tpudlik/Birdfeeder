@@ -4,10 +4,10 @@
     detect motion using the passive IR sensor.
 """
 
-import RPi.GPIO as io
+import RPi.GPIO as GPIO
 import time
 
-io.setmode(io.BCM)
+GPIO.setmode(GPIO.BCM)
 
 class PIR():
     """ This object can be used to test whether a bird is present or not,
@@ -26,11 +26,16 @@ class PIR():
     
     def listen(self):
         " Loop until a detection event is recorded, then return True."
+        GPIO.setup(self.pin, GPIO.IN)
         while True:
-            io.setup(self.pin, io.IN)
-            self.current_pir = io.input(self.pin)
+            self.current_pir = GPIO.input(self.pin)
             if self.previous_pir == 0 and self.current_pir == 1:
+                GPIO.cleanup()
                 return True
             self.previous_pir = self.current_pir
             time.sleep(self.detector_delay)
-        
+
+
+if __name__ == '__main__':
+    p = PIR()
+    while True: p.listen()
