@@ -2,10 +2,10 @@
 
 # main module
 
-"""
+""" 
 Check signal from IR motion sensor every second, use the sonic ranger to
 double-check if signal is detected, and take a picture if there seems to be
-a bird out there.
+a bird out there.  Tweet the picture afterwards!
 """
 
 import time
@@ -18,7 +18,8 @@ from parameters import * # I don't like this approach, I'd like to validate
                          # the parameters.  How to do this better?
 print "Intializing detectors..."
 pir = PIR(PIR_PIN, DETECTOR_DELAY)
-ranger = Ranger()
+ranger = Ranger(TRIG_PIN, ECHO_PIN, SETTLETIME, BACKGROUND, SAMPLES,
+                THRESHOLD)
 print "Done!  Waiting for something to stir..."
 
 while True:
