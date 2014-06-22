@@ -33,7 +33,7 @@ PHOTO_DELAY = 5
 # How large is the maximum permissible standard deviation of the background
 # signal (in cm)? This setting serves to protect against a background
 # measurement corrupted by an outlier.
-BACKGROUND = 5
+BACKGROUND = 2
 
 # How many background samples to take when calibrating the ranger (estimating
 # the distance measured if there is no bird)?
@@ -41,7 +41,7 @@ SAMPLES = 20
 
 # How many standard deviations above the background must a signal be to
 # count as a detection?
-THRESHOLD = 2
+THRESHOLD = 3
 
 
 # Twitter integration

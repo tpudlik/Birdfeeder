@@ -9,7 +9,7 @@ class Ranger:
     """
     
     def __init__(self, trig_pin=23, echo_pin=24, settletime=0.3,
-                 bg_stdev=5, background_samples=20, threshold=2):
+                 bg_stdev=1, background_samples=20, threshold=3):
         """ Initialize the sonic ranger.
                 trig_pin: Ranger trigger GPIO pin
                 echo_pin: Ranger echo GPIO pin
