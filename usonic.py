@@ -96,8 +96,13 @@ class Ranger:
     
         while GPIO.input(self.echo_pin) == 1:
             signalon = time.time()
-    
-        timepassed = signalon - signaloff
+        
+        try:
+            timepassed = signalon - signaloff
+        except UnboundLocalError:
+            # The sensor has malfunctioned: either signaloff or
+            # signalon has not been assigned to.
+            timepassed = 0
         
         # Convert to distance assuming the speed of sound is 320 m/s.
         distance = timepassed * 17000
