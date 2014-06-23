@@ -33,7 +33,7 @@ class Ranger:
         logging.info('Ranger initialized with background ' + 
                      '{:04.2f}'.format(self.background) + 
                      ' cm, standard deviation of background ' + 
-                     '{:04.2f}'.format(self.deviation) ' cm')
+                     '{:04.2f}'.format(self.deviation) + ' cm')
     
     def get_background(self, samples):
         """ Return an estimate the "background" (the reading returned by the

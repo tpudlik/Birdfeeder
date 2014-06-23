@@ -19,8 +19,8 @@ from parameters import * # I don't like this approach, I'd like to validate
                          # the parameters.  How to do this better?
 
 logging.basicConfig(filename='birdfeeder.log',
-                    level=logging.INFO
-                    format='%(acstime)s %(message)s')
+                    level=logging.INFO,
+                    format='%(asctime)s %(message)s')
 logging.info("Intializing detectors...")
 pir = PIR(PIR_PIN, DETECTOR_DELAY)
 ranger = Ranger(TRIG_PIN, ECHO_PIN, SETTLETIME, BACKGROUND, SAMPLES,
