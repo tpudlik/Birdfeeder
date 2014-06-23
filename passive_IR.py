@@ -6,6 +6,7 @@
 
 import RPi.GPIO as GPIO
 import time
+import logging
 
 GPIO.setmode(GPIO.BCM)
 
@@ -23,6 +24,7 @@ class PIR():
         # The use of previous_pir prevents a single detection being
         # reported multiple times.
         self.detector_delay = detector_delay
+        logging.info('Passive IR detector initialized')
     
     def listen(self):
         " Loop until a detection event is recorded, then return True."
@@ -31,6 +33,7 @@ class PIR():
             self.current_pir = GPIO.input(self.pin)
             if self.previous_pir == 0 and self.current_pir == 1:
                 GPIO.cleanup()
+                logging.info('Passive IR detected bird')
                 return True
             self.previous_pir = self.current_pir
             time.sleep(self.detector_delay)

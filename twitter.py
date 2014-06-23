@@ -1,5 +1,6 @@
 # Integration with Twitter
 
+import logging
 from twython import Twython, TwythonError
 
 APP_KEY = 'ySpw09Es52O9gbsgJM68HBP2F'
@@ -20,5 +21,7 @@ def update_image(shot, status='Bird spotted!'):
     photo = open(shot, 'rb')
     try:
         twitter.update_status_with_media(media=photo, status=status)
+        logging.info('Photo tweeted')
     except TwythonError:
-        print 'Twitter upload of photo ' + shot + ' has failed!'
+        logging.error('Photo tweeting failed')
+
