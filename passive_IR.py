@@ -30,13 +30,13 @@ class PIR():
         " Loop until a detection event is recorded, then return True."
         GPIO.setup(self.pin, GPIO.IN)
         while True:
+            time.sleep(self.detector_delay)
             self.current_pir = GPIO.input(self.pin)
             if self.previous_pir == 0 and self.current_pir == 1:
                 GPIO.cleanup()
                 logging.info('Passive IR detected bird')
                 return True
             self.previous_pir = self.current_pir
-            time.sleep(self.detector_delay)
 
 
 if __name__ == '__main__':
