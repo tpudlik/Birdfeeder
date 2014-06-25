@@ -29,7 +29,12 @@ class Ranger:
         self.settletime = settletime
         self.bg_stdev = bg_stdev
         self.threshold = threshold
+        
+        GPIO.setup(self.trig_pin, GPIO.OUT)
+        GPIO.setup(self.echo_pin, GPIO.IN)
+        
         self.background, self.deviation = self.get_background(background_samples)
+        
         logging.info('Ranger initialized with background ' + 
                      '{:04.2f}'.format(self.background) + 
                      ' cm, standard deviation of background ' + 
@@ -80,22 +85,15 @@ class Ranger:
         # This is based on code downloaded from,
         # http://www.bytecreation.com/blog/2013/10/13/raspberry-pi-ultrasonic-sensor-hc-sr04
         
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        # Pin numbering scheme used, see
-        # http://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering
-
-        GPIO.setup(self.trig_pin, GPIO.OUT)
-        GPIO.setup(self.echo_pin, GPIO.IN)
         GPIO.output(self.trig_pin, GPIO.LOW)
     
         # Allow the sensor to settle
         time.sleep(self.settletime)
     
         # Send 10 microsecond pulse to the trigger pin to activate the sensor.
-        GPIO.output(self.trig_pin, True)
+        GPIO.output(self.trig_pin, GPIO.HIGH)
         time.sleep(0.00001)
-        GPIO.output(self.trig_pin, False)
+        GPIO.output(self.trig_pin, GPIO.LOW)
         
         # Measure the length of the signal sent by the sensor on the ECHO pin.
         # This is equal to the time the sensor had to wait for the echo of
@@ -116,6 +114,14 @@ class Ranger:
         # Convert to distance assuming the speed of sound is 320 m/s.
         distance = timepassed * 17000
     
-        GPIO.cleanup()
         return distance
       
+if __name__ == '__main__':
+    try:
+        GPIO.setmode(GPIO.BCM)
+        r = Ranger()
+        while True:
+            print r.reading()
+            time.sleep(1)
+    finally:
+        GPIO.cleanup()

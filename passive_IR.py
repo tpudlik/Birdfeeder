@@ -8,8 +8,6 @@ import RPi.GPIO as GPIO
 import time
 import logging
 
-GPIO.setmode(GPIO.BCM)
-
 class PIR():
     """ This object can be used to test whether a bird is present or not,
         using the passive IR sensor.
@@ -21,11 +19,11 @@ class PIR():
         """
         self.pin = pir_pin
         self.detector_delay = detector_delay
+        GPIO.setup(self.pin, GPIO.IN)
         logging.info('Passive IR detector initialized')
     
     def listen(self):
         " Wait for a detection event, then return True."
-        GPIO.setup(self.pin, GPIO.IN)
         time.sleep(self.detector_delay)
         GPIO.wait_for_edge(self.pin, GPIO.RISING)
         logging.info('Passive IR detected bird')
@@ -33,5 +31,9 @@ class PIR():
 
 
 if __name__ == '__main__':
-    p = PIR()
-    while True: print p.listen()
+    try:
+        GPIO.setmode(GPIO.BCM)
+        p = PIR()
+        while True: print p.listen()
+    finally:
+        GPIO.cleanup()

@@ -18,24 +18,29 @@ from usonic import Ranger
 from parameters import * # I don't like this approach, I'd like to validate
                          # the parameters.  How to do this better?
 
-logging.basicConfig(filename='birdfeeder.log',
-                    level=logging.INFO,
-                    format='%(asctime)s %(message)s')
-logging.info("Intializing detectors...")
-pir = PIR(PIR_PIN, DETECTOR_DELAY)
-ranger = Ranger(TRIG_PIN, ECHO_PIN, SETTLETIME, BACKGROUND, SAMPLES,
-                THRESHOLD)
-logging.info("Waiting for something to stir...")
-
-while True:
-    if pir.listen() and ranger.detect():
-        image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-        image_name = image_name + '.jpeg'
-        with picamera.PiCamera() as camera:
-            camera.rotation = 180
-            camera.capture(image_name)
-            logging.info('Picture taken')
-        if TWEET:
-            twitter.update_image(image_name)
-        time.sleep(PHOTO_DELAY)
-        
+try:
+    GPIO.setmode(GPIO.BCM)
+    # Pin numbering scheme used, see
+    # http://raspberrypi.stackexchange.com/questions/12966/what-is-the-difference-between-board-and-bcm-for-gpio-pin-numbering
+    logging.basicConfig(filename='birdfeeder.log',
+                        level=logging.INFO,
+                        format='%(asctime)s %(message)s')
+    logging.info("Intializing detectors...")
+    pir = PIR(PIR_PIN, DETECTOR_DELAY)
+    ranger = Ranger(TRIG_PIN, ECHO_PIN, SETTLETIME, BACKGROUND, SAMPLES,
+                    THRESHOLD)
+    
+    logging.info("Waiting for something to stir...")    
+    while True:
+        if pir.listen() and ranger.detect():
+            image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+            image_name = image_name + '.jpeg'
+            with picamera.PiCamera() as camera:
+                camera.rotation = 180
+                camera.capture(image_name)
+                logging.info('Picture taken')
+            if TWEET:
+                twitter.update_image(image_name)
+                time.sleep(PHOTO_DELAY)
+finally:
+    GPIO.cleanup()
