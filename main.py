@@ -13,6 +13,7 @@ import datetime
 import logging
 import twitter
 import picamera
+import RPi.GPIO as GPIO
 from passive_IR import PIR
 from usonic import Ranger
 from parameters import * # I don't like this approach, I'd like to validate
