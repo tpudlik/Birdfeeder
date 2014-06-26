@@ -40,7 +40,7 @@ try:
     logger.info("Initializing detectors...")
     pir = PIR(PIR_PIN, DETECTOR_DELAY)
     ranger = Ranger(TRIG_PIN, ECHO_PIN, SETTLETIME, BACKGROUND, SAMPLES,
-                    THRESHOLD)
+                    THRESHOLD, DETECT_SAMPLES)
     
     logger.info("Waiting for something to stir...")    
     while True:

@@ -39,6 +39,11 @@ BACKGROUND = 2
 # the distance measured if there is no bird)?
 SAMPLES = 20
 
+# How many samples to take when PIR reports a detection?  (You want to take
+# more than one sample because the PIR has a slightly longer range, and
+# a detection may be false rejected by the ranger's first reading.)
+DETECT_SAMPLES = 3
+
 # How many standard deviations above the background must a signal be to
 # count as a detection?
 THRESHOLD = 3
