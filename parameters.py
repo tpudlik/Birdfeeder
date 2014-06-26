@@ -21,7 +21,7 @@ ECHO_PIN = 24
 DETECTOR_DELAY = 1
 
 # For how many seconds should the sonic ranger be allowed to settle?
-SETTLETIME = 0.3
+SETTLETIME = 0.5
 
 # How many seconds between pictures?
 PHOTO_DELAY = 5

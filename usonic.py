@@ -7,10 +7,15 @@ import RPi.GPIO as GPIO
 
 class Ranger:
     """ This object can be used to test whether a bird is present or not.
+        
+        You must set the GPIO mode (GPIO.setmode(BCM) or GPIO.setmode(BOARD)
+        before initializing this object, and clean up the pins with
+        GPIO.cleanup() when you're done using it.
     """
     
     def __init__(self, trig_pin=23, echo_pin=24, settletime=0.3,
-                 bg_stdev=1, background_samples=20, threshold=3):
+                 bg_stdev=1, background_samples=20, threshold=3,
+                 detect_samples=3):
         """ Initialize the sonic ranger.
                 trig_pin: Ranger trigger GPIO pin
                 echo_pin: Ranger echo GPIO pin
@@ -22,23 +27,27 @@ class Ranger:
                     to estimate the distance in the absence of a bird.
                 threshold: How many standard deviations above the background
                     must the signal be to result in a detection event?
+                detect_samples: Number of readings to take in succession
+                    before reporting that no bird is present.
         """
-        logging.info('Initializing sonic ranger...')
+        self.logger = logging.getLogger('main.usonic')
+        self.logger.info('Initializing sonic ranger...')
         self.trig_pin = trig_pin
         self.echo_pin = echo_pin
         self.settletime = settletime
         self.bg_stdev = bg_stdev
         self.threshold = threshold
+        self.detect_samples = detect_samples
         
         GPIO.setup(self.trig_pin, GPIO.OUT)
         GPIO.setup(self.echo_pin, GPIO.IN)
         
         self.background, self.deviation = self.get_background(background_samples)
         
-        logging.info('Ranger initialized with background ' + 
-                     '{:04.2f}'.format(self.background) + 
-                     ' cm, standard deviation of background ' + 
-                     '{:04.2f}'.format(self.deviation) + ' cm')
+        self.logger.info('Ranger initialized with background ' + 
+                         '{:04.2f}'.format(self.background) + 
+                         ' cm, standard deviation of background ' + 
+                         '{:04.2f}'.format(self.deviation) + ' cm')
     
     def get_background(self, samples):
         """ Return an estimate the "background" (the reading returned by the
@@ -64,20 +73,22 @@ class Ranger:
         return (average, stdev)
     
     def detect(self):
-        """ Measure the distance and return True if the result is more than
-            self.threshold standard deviations above the background.
+        """ Measure the distance self.detect_samples times and and return
+            True if the result is more than self.threshold standard deviations
+            above the background.
         """
-        signal = self.reading()
-        # We register a detection if the measured distance is _less_ than
-        # the background distance.
-        if signal < self.background - self.threshold*self.deviation:
-            logging.info('Sonic ranger confirms: distance ' 
-                         + '{:04.2f}'.format(signal) + ' cm')
-            return True
-        else:
-            logging.info('Sonic ranger denies: distance '
-                         + '{:04.2f}'.format(signal) + ' cm')
-            return False
+        for repetitions in range(self.detect_samples):
+            signal = self.reading()
+            # We register a detection if the measured distance is _less_ than
+            # the background distance.
+            if signal < self.background - self.threshold*self.deviation:
+                self.logger.info('Sonic ranger confirms: distance ' 
+                                 + '{:04.2f}'.format(signal) + ' cm')
+                return True
+            else:
+                self.logger.info('Sonic ranger denies: distance '
+                                 + '{:04.2f}'.format(signal) + ' cm')
+        return False
 
     def reading(self):
         " Return the distance to the object in front of the sensor in cm. "
@@ -109,7 +120,7 @@ class Ranger:
             timepassed = signalon - signaloff
         except UnboundLocalError:
             timepassed = 0
-            logging.error('Sonic ranger error: either signaloff or signalon has not been assigned to.')
+            self.logger.error('Sonic ranger error: either signaloff or signalon has not been assigned to.')
         
         # Convert to distance assuming the speed of sound is 320 m/s.
         distance = timepassed * 17000

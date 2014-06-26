@@ -19,14 +19,16 @@ class PIR():
         """
         self.pin = pir_pin
         self.detector_delay = detector_delay
+        self.logger = logging.getLogger('main.pir')
+        
         GPIO.setup(self.pin, GPIO.IN)
-        logging.info('Passive IR detector initialized')
+        self.logger.info('Passive IR detector initialized')
     
     def listen(self):
         " Wait for a detection event, then return True."
         time.sleep(self.detector_delay)
         GPIO.wait_for_edge(self.pin, GPIO.RISING)
-        logging.info('Passive IR detected bird')
+        self.logger.info('Passive IR detected bird')
         return True
 
 
