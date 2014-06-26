@@ -11,6 +11,10 @@ import logging
 class PIR():
     """ This object can be used to test whether a bird is present or not,
         using the passive IR sensor.
+
+        You must set the GPIO mode (GPIO.setmode(BCM) or GPIO.setmode(BOARD)
+        before initializing this object, and clean up the pins with
+        GPIO.cleanup() when you're done using it.
     """
     
     def __init__(self, pir_pin=18, detector_delay=1):
