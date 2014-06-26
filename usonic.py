@@ -65,7 +65,12 @@ class Ranger:
         """
         data = []
         for i in range(samples):
-            data.append(self.reading())
+            while True:
+                try:
+                    data.append(self.reading())
+                    break
+                except RangerError:
+                    pass
         average = sum(data)/samples
         
         squares = sum(map(lambda x: x*x, data))/samples
@@ -78,7 +83,12 @@ class Ranger:
             above the background.
         """
         for repetitions in range(self.detect_samples):
-            signal = self.reading()
+            while True:
+                try:
+                    signal = self.reading()
+                    break
+                except RangerError:
+                    pass
             # We register a detection if the measured distance is _less_ than
             # the background distance.
             if signal < self.background - self.threshold*self.deviation:
@@ -119,13 +129,16 @@ class Ranger:
         try:
             timepassed = signalon - signaloff
         except UnboundLocalError:
-            timepassed = 0
             self.logger.error('Sonic ranger error: either signaloff or signalon has not been assigned to.')
+            raise RangerError()
         
         # Convert to distance assuming the speed of sound is 320 m/s.
         distance = timepassed * 17000
     
         return distance
+
+class RangerError(Exception):
+    pass
       
 if __name__ == '__main__':
     try:
