@@ -23,7 +23,7 @@ DETECTOR_DELAY = 1
 # For how many seconds should the sonic ranger be allowed to settle?
 SETTLETIME = 0.5
 
-# How many seconds between pictures?
+# How many seconds between Tweeted pictures?
 PHOTO_DELAY = 5
 
 
@@ -47,6 +47,13 @@ DETECT_SAMPLES = 3
 # How many standard deviations above the background must a signal be to
 # count as a detection?
 THRESHOLD = 3
+
+
+# Camera setup
+# ============
+
+# How many pictures to take in a row when a detection event has taken place?
+PHOTO_BURST = 3
 
 
 # Twitter integration
