@@ -17,11 +17,12 @@ def get_auth():
 def update_image(shot, status='Bird spotted!'):
     """ Upload the image in the file 'shot' to Twitter account. """
     # Requires Authentication as of Twitter API v1.1
+    logging.getLogger('main.twitter')
     twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
     photo = open(shot, 'rb')
     try:
         twitter.update_status_with_media(media=photo, status=status)
-        logging.info('Photo tweeted')
+        logger.info('Photo tweeted')
     except TwythonError:
-        logging.error('Photo tweeting failed')
+        logger.error('Photo tweeting failed')
 
