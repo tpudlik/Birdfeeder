@@ -45,7 +45,8 @@ try:
     logger.info("Waiting for something to stir...")
     previous_tweet_time = time.time()
     while True:
-        if pir.listen() and ranger.detect():
+        if pir.listen():
+            ranger_confirmed = ranger.detect()
             for img in range(PHOTO_BURST):
                 image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
                 image_name = image_name + '.jpeg'
@@ -54,7 +55,7 @@ try:
                     camera.resolution = (2592, 1944)
                     camera.capture(image_name)
                     logger.info('Picture taken')
-                if TWEET and time.time() - previous_tweet_time > PHOTO_DELAY:
+                if TWEET and ranger_confirmed and time.time() - previous_tweet_time > PHOTO_DELAY:
                     twitter.update_image(image_name)
                     previous_tweet_time = time.time()
 except KeyboardInterrupt:

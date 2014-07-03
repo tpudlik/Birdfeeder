@@ -33,7 +33,7 @@ PHOTO_DELAY = 5
 # How large is the maximum permissible standard deviation of the background
 # signal (in cm)? This setting serves to protect against a background
 # measurement corrupted by an outlier.
-BACKGROUND = 2
+BACKGROUND = 1
 
 # How many background samples to take when calibrating the ranger (estimating
 # the distance measured if there is no bird)?
@@ -42,7 +42,7 @@ SAMPLES = 20
 # How many samples to take when PIR reports a detection?  (You want to take
 # more than one sample because the PIR has a slightly longer range, and
 # a detection may be false rejected by the ranger's first reading.)
-DETECT_SAMPLES = 3
+DETECT_SAMPLES = 2
 
 # How many standard deviations above the background must a signal be to
 # count as a detection?
