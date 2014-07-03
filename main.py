@@ -14,6 +14,7 @@ import picamera
 import RPi.GPIO as GPIO
 from passive_IR import PIR
 from usonic import Ranger
+import dbox
 from parameters import * # I don't like this approach, I'd like to validate
                          # the parameters.  How to do this better?
 
@@ -52,9 +53,11 @@ try:
                 image_name = image_name + '.jpeg'
                 with picamera.PiCamera() as camera:
                     camera.rotation = 180
-                    camera.resolution = (2592, 1944)
+                    camera.resolution = (2592, 1944) # Full sensor size
                     camera.capture(image_name)
                     logger.info('Picture taken')
+                if DBOX:
+                    dbox.upload(image_name)
                 if TWEET and ranger_confirmed and time.time() - previous_tweet_time > PHOTO_DELAY:
                     twitter.update_image(image_name)
                     previous_tweet_time = time.time()

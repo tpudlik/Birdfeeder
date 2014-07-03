@@ -46,7 +46,7 @@ DETECT_SAMPLES = 2
 
 # How many standard deviations above the background must a signal be to
 # count as a detection?
-THRESHOLD = 3
+THRESHOLD = 2
 
 
 # Camera setup
@@ -61,3 +61,10 @@ PHOTO_BURST = 3
 
 # Should the photos be tweeted (True or False)?
 TWEET = False
+
+
+# Drobox integration
+# ==================
+
+# Should the photos be uploaded to Dropbox (True or False)?
+DBOX = True
