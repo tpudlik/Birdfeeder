@@ -24,7 +24,7 @@ DETECTOR_DELAY = 1
 SETTLETIME = 0.5
 
 # How many seconds between Tweeted pictures?
-PHOTO_DELAY = 5
+PHOTO_DELAY = 60
 
 
 # Sonic ranger setup

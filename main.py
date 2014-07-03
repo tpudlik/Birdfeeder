@@ -48,6 +48,7 @@ try:
     while True:
         if pir.listen():
             ranger_confirmed = ranger.detect()
+            images = []
             for img in range(PHOTO_BURST):
                 image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
                 image_name = image_name + '.jpeg'
@@ -56,6 +57,8 @@ try:
                     camera.resolution = (2592, 1944) # Full sensor size
                     camera.capture(image_name)
                     logger.info('Picture taken')
+                images.append(image_name)
+            for image_name in images:
                 if DBOX:
                     dbox.upload(image_name)
                 if TWEET and ranger_confirmed and time.time() - previous_tweet_time > PHOTO_DELAY:
