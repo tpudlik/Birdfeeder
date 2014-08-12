@@ -31,12 +31,12 @@ class Tripwire():
         """ Initialize the tripwire.  See module documentation for the details
             of the parameter settings used here.
         """
-        self.pin = sensor_pin
+        self.sensor_pin = sensor_pin
         self.detector_delay = detector_delay
         self.logger = logging.getLogger('main.tripwire')
 
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(sensor_pin, GPIO.IN)
+        GPIO.setup(self.sensor_pin, GPIO.IN)
         
         wiringpi.wiringPiSetupGpio()
         wiringpi.pinMode(PWM_PIN, 2)
@@ -55,7 +55,7 @@ class Tripwire():
     def listen(self):
         " Wait for a detection event, then return true. "
         time.sleep(self.detector_delay)
-        GPIO.wait_for_edge(sensor_pin, GPIO.RISING)
+        GPIO.wait_for_edge(self.sensor_pin, GPIO.RISING)
         self.logger.info('IRon curtain tripped!')
         return True
     
