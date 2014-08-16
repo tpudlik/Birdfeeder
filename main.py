@@ -42,7 +42,6 @@ with Tripwire(settletime=SETTLETIME, detector_delay=DETECTOR_DELAY) as t:
                 image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
                 image_name = image_name + '.jpeg'
                 with picamera.PiCamera() as camera:
-                    camera.rotation = 180
                     camera.resolution = (2592, 1944) # Full sensor size
                     camera.capture(image_name)
                     logger.info('Picture taken')
