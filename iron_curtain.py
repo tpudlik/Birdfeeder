@@ -4,13 +4,41 @@
     detect  motion.
     
     The tripwire consists of an IR diode (or a few IR diodes connected in
-    series) and an IR detector sensitive to 950 nm radiation modulated at
+    series) and an IR detector sensitive to IR radiation modulated at
     38 kHz.  The hardware PWM of the Pi is used to drive the IR diode, which
     continuously emits a square wave at the detector's frequency.
     
     You should always use the Python 'with' statement when creating an
     instance of the Tripwire class to ensure that the sensor and PWM pins
-    are properly cleaned up if an exception occurs.
+    are properly cleaned up if an exception occurs.  Since the tripwire is
+    usually set up to operate indefinitely from the time it is set up,
+    an exception is the only way for it to terminate!  Cleaning up after the
+    class is critical, since otherwise a 3V3 PWM signal will continue being
+    sent on pin 18; this may destroy any other component connected to the
+    pin.  An example of proper syntax is in the "if __name__ == '__main__'"
+    block at the end of the module.
+
+    The class constructor takes three optional parameters:
+        sensor_pin: the number of the sensor GPIO pin, in the BCM numbering
+            scheme.  The default pin is 22, but any GPIO pin except 18
+            will do.
+        detector_delay: how many seconds to wait before engaging the detector
+            again after an event was reported. No delay is probably
+            necessary in the default case, but I want to carry out some
+            more tests before removing this parameter.
+        settletime: how many seconds to wait after engaging the emitter diode
+            before beginning to query the detector.  The detector usually
+            needs some time to recognize the presence of a signal.  In the
+            case of the Adafruit IR sensor I have been using (product no 157),
+            this time is supposed to be on the order of 0.0004 seconds.
+    
+    Both RPi.GPIO and wiringpi2 libraries are used to control the GPIO.  This
+    is because as of the creation of this module (August 2014) the RPi.GPIO
+    library does not give access to hardware PWM, while the wiringpi2 library
+    does not offer a functionality analogous to wait_for_edge (detecting a
+    voltage change without repeatedly polling a pin).    
+
+    This class uses the logging standard library module to log events.
 """
 
 import wiringpi2 as wiringpi
@@ -18,7 +46,6 @@ import RPi.GPIO as GPIO
 import time
 import logging
 
-# Constants
 # ============================================================================
 PWM_PIN = 18 # This is a hardwired constant since only pin 18 is capable of
              # hardware pulse width modulation (PWM)
