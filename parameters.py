@@ -1,6 +1,13 @@
 # Parameters used by main.py
 
 
+# Pin setup
+# =========
+
+# IR sensor pin
+SENSOR_PIN = 27
+
+
 # Delays
 # ======
 

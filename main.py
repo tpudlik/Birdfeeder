@@ -33,7 +33,9 @@ logger.addHandler(stderr_log_handler)
 # ============================================================================
 
 logger.info('Initializing detectors...')
-with Tripwire(settletime=SETTLETIME, detector_delay=DETECTOR_DELAY) as t:
+with Tripwire(settletime=SETTLETIME,
+              detector_delay=DETECTOR_DELAY,
+              sensor_pin=SENSOR_PIN) as t:
     while True:
         previous_tweet_time = time.time()
         if t.listen():
