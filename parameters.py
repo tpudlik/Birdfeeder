@@ -1,6 +1,13 @@
 # Parameters used by main.py
 
 
+# Pin setup
+# =========
+
+# IR sensor pin
+SENSOR_PIN = 27
+
+
 # Delays
 # ======
 
@@ -19,6 +26,11 @@ PHOTO_DELAY = 60
 
 # How many pictures to take in a row when a detection event has taken place?
 PHOTO_BURST = 3
+
+# Should the picture be rotated when it's taken?
+# The value of this parameter should be one of the legal input values for
+# picamera.PiCamera.rotation, or None.
+PHOTO_ROTATE = 180
 
 
 # Twitter integration

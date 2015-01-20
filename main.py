@@ -33,7 +33,9 @@ logger.addHandler(stderr_log_handler)
 # ============================================================================
 
 logger.info('Initializing detectors...')
-with Tripwire(settletime=SETTLETIME, detector_delay=DETECTOR_DELAY) as t:
+with Tripwire(settletime=SETTLETIME,
+              detector_delay=DETECTOR_DELAY,
+              sensor_pin=SENSOR_PIN) as t:
     while True:
         previous_tweet_time = time.time()
         if t.listen():
@@ -42,6 +44,8 @@ with Tripwire(settletime=SETTLETIME, detector_delay=DETECTOR_DELAY) as t:
                 image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
                 image_name = image_name + '.jpeg'
                 with picamera.PiCamera() as camera:
+                    if PHOTO_ROTATE:
+                        camera.rotation = PHOTO_ROTATE
                     camera.resolution = (2592, 1944) # Full sensor size
                     camera.capture(image_name)
                     logger.info('Picture taken')

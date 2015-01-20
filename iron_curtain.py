@@ -20,7 +20,7 @@
 
     The class constructor takes three optional parameters:
         sensor_pin: the number of the sensor GPIO pin, in the BCM numbering
-            scheme.  The default pin is 22, but any GPIO pin except 18
+            scheme.  The default pin is 27, but any GPIO pin except 18
             will do.
         detector_delay: how many seconds to wait before engaging the detector
             again after an event was reported. No delay is probably
@@ -54,7 +54,7 @@ PWM_PIN = 18 # This is a hardwired constant since only pin 18 is capable of
 
 class Tripwire():
 
-    def __init__(self, sensor_pin=22, detector_delay=1, settletime=0.01):
+    def __init__(self, sensor_pin=27, detector_delay=1, settletime=0.01):
         """ Initialize the tripwire.  See module documentation for the details
             of the parameter settings used here.
         """
