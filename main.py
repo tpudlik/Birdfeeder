@@ -49,6 +49,6 @@ with Tripwire(settletime=SETTLETIME, detector_delay=DETECTOR_DELAY) as t:
             for image_name in images:
                 if DBOX:
                     dbox.upload(image_name)
-                if TWEET and ranger_confirmed and time.time() - previous_tweet_time > PHOTO_DELAY:
+                if TWEET and time.time() - previous_tweet_time > PHOTO_DELAY:
                     twitter.update_image(image_name)
                     previous_tweet_time = time.time()
