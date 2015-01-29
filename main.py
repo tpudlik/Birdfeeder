@@ -5,7 +5,7 @@ Wait for the IRon curtain to be tripped, then take a picture.  Upload the pictur
 to Twitter and Dropbox.
 """
 
-import time
+import time, os
 import datetime
 import logging
 import picamera
@@ -56,3 +56,7 @@ with Tripwire(settletime=SETTLETIME,
                 if TWEET and time.time() - previous_tweet_time > PHOTO_DELAY:
                     twitter.update_image(image_name)
                     previous_tweet_time = time.time()
+                if DBOX or TWEET:
+                    # The image was uploaded to external server, can be
+                    # safely removed.
+                    os.remove(image_name)
