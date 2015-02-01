@@ -44,7 +44,13 @@ with Tripwire(settletime=SETTLETIME,
                     if PHOTO_ROTATE:
                         camera.rotation = PHOTO_ROTATE
                     camera.resolution = (2592, 1944) # Full sensor size
-                    camera.capture(image_name)
+                    if TWEET and not DBOX:
+                        # Crop the image to the 2:1 aspect Twitter likes
+                        camera.zoom(0, 1.0/3, 1, 1)
+                        camera.capture(image_name,
+                                       resize=(2592, int(2.0/3*1944)))
+                    else:
+                        camera.capture(image_name)
                     logger.info('Picture taken')
                 images.append(image_name)
             for image_name in images:
