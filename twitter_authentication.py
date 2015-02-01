@@ -16,7 +16,7 @@ print '3. Copy the authorization PIN code.'
 code = raw_input("Enter the authorization code here: ").strip()
 
 # This will fail if the user enters an invalid authorization code
-twitter = Twython(app_key, app_secret,
+twitter = twython.Twython(app_key, app_secret,
                   auth['oauth_token'], auth['oauth_token_secret'])
 final_step = twitter.get_authorized_tokens(code)
 
