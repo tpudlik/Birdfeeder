@@ -41,7 +41,7 @@ with Tripwire(settletime=SETTLETIME,
         if t.listen():
             images = []
             for img in range(PHOTO_BURST):
-                image_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+                image_name = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
                 image_name = image_name + '.jpeg'
                 with picamera.PiCamera() as camera:
                     if PHOTO_ROTATE:
