@@ -3,7 +3,7 @@
 """ Dropbox module: allows the uploading of bird snapshots to Dropbox. """
 
 import dropbox
-import logging, sys
+import logging
 from access_tokens import D_ACCESS_TOKEN
 
 def upload(filename):
@@ -13,7 +13,7 @@ def upload(filename):
     with open(filename, 'rb') as f:
         try:
             response = client.put_file('/' + filename, f)
-        except:
-            logger.error("Dropbox exception: " + repr(sys.exc_info()[0]))
+        except Exception:
+            logger.exception("Dropbox upload exception")
         else:
             logger.info('Dropbox upload: ' + str(response))

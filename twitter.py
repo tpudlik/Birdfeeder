@@ -19,7 +19,7 @@ def update_image(shot, status='Bird spotted!'):
                 twitter.update_status(media_ids=[ids['media_id']],
                                       status=status)
             except TwythonError:
-                logger.error('Photo tweeting failed')
+                logger.exception('Photo tweeting failed')
             else:
                 previous_tweet_time['t'] = time.time()
                 logger.info('Photo tweeted')
