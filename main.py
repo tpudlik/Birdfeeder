@@ -12,6 +12,7 @@ from parameters import * # I don't like this approach, I'd like to validate
 from iron_curtain import Tripwire
 if TWEET:
     import twitter
+    from postprocess import twitter_postprocess
 if DBOX:
     import dbox
 
@@ -44,21 +45,16 @@ with Tripwire(settletime=SETTLETIME,
                     if PHOTO_ROTATE:
                         camera.rotation = PHOTO_ROTATE
                     camera.resolution = (2592, 1944) # Full sensor size
-                    if TWEET and not DBOX:
-                        # Crop the image to the 2:1 aspect Twitter likes
-                        camera.zoom = (0, 1.0/3, 1, 1)
-                        camera.capture(image_name,
-                                       resize=(2592, int(2.0/3*1944)))
-                    else:
-                        camera.capture(image_name)
+                    camera.capture(image_name)
                     logger.info('Picture taken')
                 images.append(image_name)
             for image_name in images:
                 if DBOX:
                     dbox.upload(image_name)
                 if TWEET:
+                    twitter_postprocess(image_name)
                     twitter.update_image(image_name)
                 if DBOX or TWEET:
-                    # The image was uploaded to external server, can be
-                    # safely removed.
+                    # The image was uploaded to external server, 
+                    # and can be safely removed.
                     os.remove(image_name)
