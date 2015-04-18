@@ -2,7 +2,7 @@
 
 """ 
 Wait for the IRon curtain to be tripped, then take a picture.  Upload the picture
-to Twitter and Dropbox.
+to Twitter, Dropbox and/or Flickr.
 """
 
 import os, datetime, logging
@@ -15,6 +15,8 @@ if TWEET:
     from postprocess import twitter_postprocess
 if DBOX:
     import dbox
+if FLICKR:
+    import flickr
 
 # Configure loggers
 # ============================================================================
@@ -54,7 +56,9 @@ with Tripwire(settletime=SETTLETIME,
                 if TWEET:
                     twitter_postprocess(image_name)
                     twitter.update_image(image_name)
-                if DBOX or TWEET:
+                if FLICKR:
+                    flickr.upload(image_name)
+                if DBOX or TWEET or FLICKR:
                     # The image was uploaded to external server, 
                     # and can be safely removed.
                     os.remove(image_name)

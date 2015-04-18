@@ -45,3 +45,10 @@ TWEET = False
 
 # Should the photos be uploaded to Dropbox (True or False)?
 DBOX = True
+
+
+# Flickr integration
+# ==================
+
+# Should the photos be uploaded to Flickr (True or False)?
+FLICKR = False
