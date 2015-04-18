@@ -19,4 +19,13 @@ flickr_api.set_auth_handler(auth)
 
 auth.save("flickr_access_token.txt")
 
+t = Template(""" 
+# Flickr keys
+FLICKR_APP_KEY = '${appkey}'
+FLICKR_APP_SECRET = '${appsecret}'
+""")
+with open('access_tokens.py', 'a') as f:
+    f.write(t.substitute(appkey=app_key,
+                         appsecret=app_secret))
+
 print 'Success!  OAuth tokens saved to flickr_access_token.txt.'

@@ -4,11 +4,14 @@
 
 import logging
 import flickr_api
+from access_tokens import FLICKR_APP_KEY, FLICKR_APP_SECRET
+
+flickr_api.set_keys(api_key=FLICKR_APP_KEY, api_secret=FLICKR_APP_SECRET)
+flickr_api.set_auth_handler("flickr_access_token.txt")
 
 def upload(filename):
     """Upload the named file to Flickr."""
     logger = logging.getLogger('main.flickr')
-    flickr_api.set_auth_handler("flickr_access_token.txt")
     try:
         response = flickr_api.upload(photo_file=filename,
                                      safety_level=1,
