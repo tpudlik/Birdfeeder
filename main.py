@@ -53,11 +53,11 @@ with Tripwire(settletime=SETTLETIME,
             for image_name in images:
                 if DBOX:
                     dbox.upload(image_name)
+                if FLICKR:
+                    flickr.upload(image_name)
                 if TWEET:
                     twitter_postprocess(image_name)
                     twitter.update_image(image_name)
-                if FLICKR:
-                    flickr.upload(image_name)
                 if DBOX or TWEET or FLICKR:
                     # The image was uploaded to external server, 
                     # and can be safely removed.
