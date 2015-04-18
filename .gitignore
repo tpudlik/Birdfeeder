@@ -1,6 +1,7 @@
 *.jpg
 *.jpeg
 access_tokens.py
+flickr_access_token.txt
 
 #################
 ## Eclipse
