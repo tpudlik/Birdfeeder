@@ -1,18 +1,22 @@
-Paparazzi Birdfeeder
-====================
+Paparazzi Bird Feeder
+=====================
 
-The paparazzi birdfeeder detects the presence of a bird, takes its picture
-and posts the picture to Dropbox or a dedicated Twitter feed.
+The Paparazzi Bird Feeder detects the presence of a bird, takes its picture
+and posts the picture to Dropbox, Twitter or Flickr.
 
 The hardware consists of a Raspberry Pi camera module, a 38 kHz demodulating
 IR sensor (similar to those used in remote-control receivers) and an IR diode.
 The entire setup can be powered for hours from a power pack, but is designed
 for tethered operation.
 
+For more details, including instructions for building your own feeder, see
+[the project's website](http://birdfeeder.camera).  You can check out the
+latest pictures [here][Flickrfeed].
+
 ## TO DO ##
 
-*   Catch `ErrorResponse` (`dropbox.rest.ErrorResponse`), thrown by the
-    Dropbox upload routine when the server makes encounters an error.
-    (Currently, the program crashes when this happens.)
 *   Don't take pictures after dusk or before dawn (but record events in the
     log).
+
+
+[Flickrfeed]: https://www.flickr.com/photos/131794461@N04/
