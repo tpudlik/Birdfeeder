@@ -41,7 +41,7 @@
     This class uses the logging standard library module to log events.
 """
 
-import wiringpi2 as wiringpi
+import wiringpi
 import RPi.GPIO as GPIO
 import time
 import logging
